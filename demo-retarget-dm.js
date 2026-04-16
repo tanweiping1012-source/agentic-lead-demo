@@ -4,6 +4,7 @@ const state = {
   screen: "feed",
   hasRecentSearch: false,
   leadEntry: "feed",
+  dmEntry: "lead",
   leadId: "LEAD-RNV-2048",
   submissionId: "SUB-RNV-9A31",
   budget: "$30k",
@@ -13,6 +14,7 @@ const state = {
   dmInitialized: false,
   pushShown: false,
   pushDismissed: false,
+  pushAutoDismissTimer: null,
 };
 
 function render() {
@@ -27,6 +29,9 @@ function render() {
       const push = document.querySelector(".rt-push");
       if (push) push.classList.add("rt-push-show");
     }, 100);
+    state.pushAutoDismissTimer = window.setTimeout(() => {
+      if (!state.pushDismissed) dismissPush();
+    }, 4000);
   }
 }
 
@@ -51,14 +56,14 @@ function renderSearch() {
       </div>
 
       <div class="rt-search-content">
-        <div class="rt-search-result">
+        <div class="rt-search-result" data-action="noop">
           <div class="rt-search-thumb">▶</div>
           <div class="rt-search-info">
             <div class="rt-search-info-title">Budget Home Renovation Tips 2024</div>
             <div class="rt-search-info-meta">HomeDesign Pro · 2.1M views</div>
           </div>
         </div>
-        <div class="rt-search-result">
+        <div class="rt-search-result" data-action="noop">
           <div class="rt-search-thumb">▶</div>
           <div class="rt-search-info">
             <div class="rt-search-info-title">Kitchen Remodel Under $10K</div>
@@ -110,6 +115,7 @@ function renderFeed() {
     <section class="rt-shell rt-feed-screen">
       <div class="rt-feed-bg"></div>
       <div class="rt-feed-mask"></div>
+      <div class="rt-feed-progress"><div style="width: 34%"></div></div>
 
       <header class="rt-tt-top">
         <div class="rt-statusbar">
@@ -251,10 +257,12 @@ function renderDM() {
     `
     : "";
 
+  const dmBackAction = state.dmEntry === "lead" ? "back-to-lead" : "back-feed";
+
   return `
     <section class="rt-shell rt-dm-screen">
       <div class="rt-dm-top">
-        <button class="rt-dm-back" type="button" data-action="back-feed" aria-label="Back">‹</button>
+        <button class="rt-dm-back" type="button" data-action="${dmBackAction}" aria-label="Back">‹</button>
         <div class="rt-dm-brand">
           <div class="rt-dm-avatar">RF</div>
           <div class="rt-dm-brand-text">
@@ -379,12 +387,16 @@ function scrollDMToBottom() {
 
 function dismissPush() {
   state.pushDismissed = true;
+  if (state.pushAutoDismissTimer) {
+    clearTimeout(state.pushAutoDismissTimer);
+    state.pushAutoDismissTimer = null;
+  }
   const push = document.querySelector(".rt-push");
   if (push) {
-    push.style.transition = "opacity 200ms ease, transform 200ms ease";
+    push.style.transition = "opacity 250ms ease, transform 250ms ease";
     push.style.opacity = "0";
     push.style.transform = "translateY(-20px)";
-    window.setTimeout(() => { if (push.parentNode) push.remove(); }, 200);
+    window.setTimeout(() => { if (push.parentNode) push.remove(); }, 250);
   }
 }
 
@@ -411,9 +423,14 @@ document.addEventListener("click", (event) => {
   }
 
   if (action === "open-dm") {
+    state.dmEntry = "lead";
     state.screen = "dm";
     initDM();
     window.setTimeout(scrollDMToBottom, 0);
+  }
+
+  if (action === "back-to-lead") {
+    state.screen = "lead";
   }
   if (action === "back-feed") state.screen = "feed";
 

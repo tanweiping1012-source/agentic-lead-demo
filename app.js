@@ -433,8 +433,27 @@ document.addEventListener("click", (event) => {
   }
   if (action === "submit-website") void submitWebsite();
   if (action === "submit-updated-website") void submitUpdatedWebsite();
-  if (action === "modify-details") openWebsiteEdit();
-  if (action === "confirm-details") confirmSubmittedDetails();
+  if (action === "modify-details") {
+    const sug = document.querySelector(".dm-suggestions");
+    if (sug) {
+      sug.style.transition = "opacity 150ms ease";
+      sug.style.opacity = "0";
+    }
+    window.setTimeout(() => openWebsiteEdit(), 160);
+    return;
+  }
+  if (action === "confirm-details") {
+    const sug = document.querySelector(".dm-suggestions");
+    if (sug) {
+      sug.style.transition = "opacity 150ms ease";
+      sug.style.opacity = "0";
+    }
+    window.setTimeout(() => {
+      confirmSubmittedDetails();
+      scrollDMToBottom();
+    }, 160);
+    return;
+  }
   if (action === "back-to-feed") {
     state.screen = "feed";
     render();

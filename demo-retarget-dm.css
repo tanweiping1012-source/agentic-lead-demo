@@ -537,6 +537,22 @@ input {
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), transparent 28%, transparent 64%, rgba(0, 0, 0, 0.56));
 }
 
+.rt-feed-progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.18);
+  z-index: 5;
+}
+
+.rt-feed-progress div {
+  height: 100%;
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 0 1px 1px 0;
+}
+
 .rt-feed-top {
   position: relative;
   z-index: 1;
@@ -546,7 +562,7 @@ input {
   position: absolute;
   left: 16px;
   right: 88px;
-  bottom: 146px;
+  bottom: 120px;
   z-index: 1;
 }
 
