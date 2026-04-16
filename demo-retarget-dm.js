@@ -199,9 +199,9 @@ function renderDM() {
   const showConfirmChips = !state.dmMessages.some((m) => m.tag === "confirmed") && !state.dmMessages.some((m) => m.tag === "budget-updated");
   const chips = showConfirmChips
     ? `
-      <div class="rt-dm-actions">
-        <button class="rt-chip" type="button" data-action="looks-good">Looks good</button>
-        <button class="rt-chip primary" type="button" data-action="adjust-budget">Budget should be ${state.revisedBudget}</button>
+      <div class="rt-dm-suggestions">
+        <button class="rt-suggestion-chip" type="button" data-action="looks-good">Looks good</button>
+        <button class="rt-suggestion-chip" type="button" data-action="adjust-budget">Budget should be ${state.revisedBudget}</button>
       </div>
     `
     : "";

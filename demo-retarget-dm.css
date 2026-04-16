@@ -999,29 +999,32 @@ input {
   color: white;
 }
 
-.rt-dm-actions {
+.rt-dm-suggestions {
+  width: min(78%, 280px);
   margin-top: 12px;
+  margin-left: auto;
   display: flex;
   flex-wrap: wrap;
+  justify-content: flex-end;
   gap: 8px;
+  padding-right: 2px;
 }
 
-.rt-chip {
-  min-height: 34px;
-  padding: 0 14px;
+.rt-suggestion-chip {
+  min-height: 30px;
+  padding: 0 12px;
   border-radius: 999px;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  background: white;
-  color: rgba(16, 18, 23, 0.82);
-  font-size: 12px;
-  font-weight: 800;
-  box-shadow: 0 8px 18px rgba(14, 22, 35, 0.06);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  background: #f1f2f5;
+  color: rgba(16, 18, 23, 0.46);
+  font-size: 11px;
+  font-weight: 700;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  opacity: 0.92;
 }
 
-.rt-chip.primary {
-  background: linear-gradient(180deg, #ff5b86, #ff4177);
-  border-color: transparent;
-  color: white;
+.rt-suggestion-chip:active {
+  transform: translateY(1px);
 }
 
 .rt-final-card {
