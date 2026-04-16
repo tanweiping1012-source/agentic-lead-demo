@@ -523,6 +523,15 @@ input {
   gap: 10px;
 }
 
+.rt-rail-click {
+  border: 0;
+  cursor: pointer;
+}
+
+.rt-rail-click:active {
+  transform: translateY(1px);
+}
+
 .rt-rail-item {
   display: flex;
   flex-direction: column;
@@ -597,6 +606,28 @@ input {
 .rt-feed-card .rt-btn {
   width: 100%;
   margin-top: 14px;
+}
+
+.rt-feed-mini {
+  position: absolute;
+  left: 16px;
+  right: 110px;
+  bottom: 86px;
+  z-index: 1;
+  height: 42px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(17, 18, 24, 0.46);
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 13px;
+  font-weight: 800;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 20px 44px rgba(0, 0, 0, 0.26);
+}
+
+.rt-feed-mini:active {
+  transform: translateY(1px);
 }
 
 .rt-tt-tabbar {

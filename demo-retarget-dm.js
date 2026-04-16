@@ -97,7 +97,7 @@ function renderFeed() {
 
       <div class="rt-feed-rail">
         <div class="rt-rail-item">
-          <div class="rt-rail-icon">RF</div>
+          <button class="rt-rail-icon rt-rail-click" type="button" data-action="open-lead" data-from="feed">RF</button>
           <span>Reno</span>
         </div>
         <div class="rt-rail-item">
@@ -114,18 +114,8 @@ function renderFeed() {
         </div>
       </div>
 
-      <button class="rt-feed-card" type="button" data-action="open-lead" data-from="feed">
-        <div class="rt-feed-kicker">Sponsored</div>
-        <h3>Get a renovation quote in chat</h3>
-        <p>${state.hasRecentSearch ? "Based on your recent search, we prepared your request." : "We can prepare your request in seconds."}</p>
-        <div class="rt-feed-tags">
-          <span>Auto-filled city</span>
-          <span>Budget to confirm</span>
-          <span>3P form auto-submit</span>
-        </div>
-        <div class="rt-feed-cta">
-          <button class="rt-btn rt-btn-primary" type="button" data-action="open-dm">Message</button>
-        </div>
+      <button class="rt-feed-mini" type="button" data-action="open-lead" data-from="feed">
+        Continue your quote in DM
       </button>
 
       <nav class="rt-tt-tabbar" aria-hidden="true">
