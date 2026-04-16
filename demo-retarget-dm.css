@@ -779,7 +779,7 @@ input {
 }
 
 .rt-dm-body {
-  padding: 12px 12px 120px;
+  padding: 12px 12px 160px;
 }
 
 .rt-dm-hero {
@@ -1002,69 +1002,61 @@ input {
 .rt-dm-suggestions {
   position: fixed;
   left: 50%;
-  bottom: calc(56px + env(safe-area-inset-bottom));
+  bottom: calc(60px + env(safe-area-inset-bottom));
   transform: translateX(-50%);
   width: min(420px, 100%);
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 6px;
-  padding: 0 18px 6px 72px;
+  gap: 8px;
+  padding: 8px 12px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
   pointer-events: none;
   z-index: 4;
 }
 
-.rt-suggestion-chip {
-  width: fit-content;
-  max-width: 235px;
-  min-height: 30px;
-  padding: 0 14px;
-  border-radius: 999px;
-  border: 0;
-  background: rgba(244, 245, 247, 0.92);
-  color: rgba(16, 18, 23, 0.28);
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: -0.01em;
-  text-align: left;
-  white-space: normal;
-  line-height: 1.28;
-  box-shadow: 0 1px 2px rgba(15, 20, 30, 0.02), inset 0 1px 0 rgba(255, 255, 255, 0.94);
-  opacity: 0;
-  pointer-events: auto;
-  transition: transform 140ms ease, opacity 140ms ease, background-color 140ms ease, color 140ms ease;
-  animation: rtSuggestionIn 240ms ease-out forwards;
+.rt-dm-suggestions::-webkit-scrollbar {
+  display: none;
 }
 
-.rt-suggestion-chip-1 {
-  margin-left: 86px;
-  max-width: 210px;
+.rt-suggestion-chip {
+  flex-shrink: 0;
+  padding: 9px 15px;
+  border-radius: 18px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: #fff;
+  color: rgba(16, 18, 23, 0.72);
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  pointer-events: auto;
+  opacity: 0;
+  animation: rtChipIn 220ms ease-out forwards;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: transform 100ms ease, background-color 100ms ease;
+}
+
+.rt-suggestion-chip:nth-child(1) {
   animation-delay: 0ms;
 }
 
-.rt-suggestion-chip-2 {
-  margin-left: 34px;
-  max-width: 185px;
-  animation-delay: 70ms;
+.rt-suggestion-chip:nth-child(2) {
+  animation-delay: 60ms;
 }
 
-.rt-suggestion-chip-3 {
-  margin-left: 0;
-  max-width: 258px;
-  animation-delay: 130ms;
+.rt-suggestion-chip:nth-child(3) {
+  animation-delay: 120ms;
 }
 
 .rt-suggestion-chip:active {
-  transform: translateY(1px);
-  opacity: 1;
-  background: rgba(244, 245, 247, 0.98);
-  color: rgba(16, 18, 23, 0.38);
+  transform: scale(0.96);
+  background: #f5f6f8;
 }
 
-@keyframes rtSuggestionIn {
+@keyframes rtChipIn {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(6px);
   }
   to {
     opacity: 1;

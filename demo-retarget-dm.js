@@ -200,9 +200,9 @@ function renderDM() {
   const chips = showConfirmChips
     ? `
       <div class="rt-dm-suggestions">
-        <button class="rt-suggestion-chip rt-suggestion-chip-1" type="button" data-action="looks-good">Looks good to me</button>
-        <button class="rt-suggestion-chip rt-suggestion-chip-2" type="button" data-action="adjust-budget">${state.revisedBudget} works better</button>
-        <button class="rt-suggestion-chip rt-suggestion-chip-3" type="button" data-action="need-cheaper">Can you lower the quote?</button>
+        <button class="rt-suggestion-chip" type="button" data-action="looks-good">Looks good to me</button>
+        <button class="rt-suggestion-chip" type="button" data-action="adjust-budget">${state.revisedBudget} works better</button>
+        <button class="rt-suggestion-chip" type="button" data-action="need-cheaper">Can you lower the quote?</button>
       </div>
     `
     : "";
@@ -242,8 +242,9 @@ function renderDM() {
           </div>
         </div>
         ${bubbles}
-        ${chips}
       </div>
+
+      ${chips}
 
       <div class="rt-inputbar">
         <button class="rt-inputcam" type="button" data-action="noop" aria-label="Camera">◉</button>
