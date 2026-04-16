@@ -209,33 +209,46 @@ function renderDM() {
   return `
     <section class="rt-shell rt-dm-screen">
       <div class="rt-dm-top">
-        <div class="rt-dm-back" data-action="back-feed">‹</div>
+        <button class="rt-dm-back" type="button" data-action="back-feed" aria-label="Back">‹</button>
         <div class="rt-dm-brand">
-          <div class="rt-dm-badge">RF</div>
-          <div>
-            <b>RenoFlow Official</b>
-            <span>Business chat</span>
+          <div class="rt-dm-avatar">CAR<br/>max</div>
+          <div class="rt-dm-brand-text">
+            <div class="rt-dm-brand-line1">
+              <b>Car Max</b>
+              <span class="rt-dm-verified" aria-hidden="true">●</span>
+            </div>
+            <div class="rt-dm-brand-line2">Business chat</div>
           </div>
         </div>
-        <div class="rt-dm-menu">⋯</div>
+        <div class="rt-dm-actions-top">
+          <button class="rt-dm-icon" type="button" data-action="noop" aria-label="Flag">⚑</button>
+          <button class="rt-dm-icon" type="button" data-action="noop" aria-label="More">⋯</button>
+        </div>
       </div>
 
       <div class="rt-dm-body">
-        <div class="rt-dm-center">
-          <div class="rt-dm-center-time">8:00 PM</div>
-          <div class="rt-dm-center-logo">RF</div>
-          <h2>RenoFlow Official</h2>
-          <p>Business chat opened from an ad. We'll confirm your renovation request details here.</p>
+        <div class="rt-dm-hero">
+          <div class="rt-dm-hero-logo">CAR<br/>max</div>
+          <div class="rt-dm-hero-name">Car Max</div>
+          <div class="rt-dm-hero-meta">128 videos · 1.1M followers</div>
+          <div class="rt-dm-hero-meta">Typically replies in 10 minutes</div>
+          <div class="rt-dm-divider">8:00 PM</div>
+          <div class="rt-dm-note">
+            You open this chat through business Ads. <a href="#" data-action="noop">Learn more about business chats and your privacy.</a>
+          </div>
+          <div class="rt-dm-note">
+            You viewed an ad before opening this chat. <a href="#" data-action="noop">View ad</a>
+          </div>
         </div>
         ${bubbles}
         ${chips}
       </div>
 
       <div class="rt-inputbar">
-        <div class="rt-inputplus">＋</div>
+        <button class="rt-inputcam" type="button" data-action="noop" aria-label="Camera">◉</button>
         <div class="rt-inputfield">Message...</div>
-        <div class="rt-inputicon">◔</div>
-        <div class="rt-inputsend">◉</div>
+        <button class="rt-inputicon" type="button" data-action="noop" aria-label="Emoji">☺</button>
+        <button class="rt-inputicon" type="button" data-action="noop" aria-label="Photo">▣</button>
       </div>
     </section>
   `;
@@ -244,19 +257,20 @@ function renderDM() {
 function ensureDMInitialized() {
   if (state.dmMessages.length > 0) return;
 
-  const intro = `
-    Hi! I noticed you were looking for renovation quotes recently. I prepared your request and submitted the 3P quote form for faster matching.
-  `;
-
-  const confirm = `
-    Please confirm these details. If anything is off, reply here and I'll update the submission.
-    ${buildConfirmCard(state.budget, "Auto submitted", state.submissionId)}
-  `;
-
-  state.dmMessages = [
-    { role: "agent", html: intro, meta: "8:01 PM" },
-    { role: "agent", html: confirm, meta: "8:01 PM" },
-  ];
+  // Let the user see the "business chat" hero first, then the agent message comes in.
+  state.dmMessages = [];
+  window.setTimeout(() => {
+    if (state.screen !== "dm") return;
+    state.dmMessages.push({
+      role: "agent",
+      html:
+        "We already submitted the 3P form to speed up matching. Please confirm the details below." +
+        buildConfirmCard(state.budget, "Auto submitted", state.submissionId),
+      meta: "8:01 PM",
+    });
+    render();
+    scrollDMToBottom();
+  }, 650);
 }
 
 function buildConfirmCard(budget, badge, id) {
