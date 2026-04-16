@@ -38,16 +38,6 @@ function renderSearch() {
       </div>
 
       <div class="rt-search-content">
-        <div class="rt-card rt-result">
-          <div class="rt-result-top">
-            <div class="rt-result-title">Compare home renovation quotes</div>
-            <div class="rt-result-badge">Sponsored</div>
-          </div>
-          <div class="rt-result-copy">
-            Browse quotes and contractor reviews. You can continue later in business chat.
-          </div>
-        </div>
-
         <div class="rt-card rt-lead">
           <div class="rt-lead-head">
             <div>
