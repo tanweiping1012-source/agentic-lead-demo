@@ -201,7 +201,8 @@ function renderDM() {
     ? `
       <div class="rt-dm-suggestions">
         <button class="rt-suggestion-chip" type="button" data-action="looks-good">Looks good</button>
-        <button class="rt-suggestion-chip" type="button" data-action="adjust-budget">Budget should be ${state.revisedBudget}</button>
+        <button class="rt-suggestion-chip" type="button" data-action="adjust-budget">${state.revisedBudget} budget</button>
+        <button class="rt-suggestion-chip" type="button" data-action="need-cheaper">Need cheaper quote</button>
       </div>
     `
     : "";
@@ -368,7 +369,7 @@ document.addEventListener("click", (event) => {
   if (action === "adjust-budget") {
     state.dmMessages.push({
       role: "me",
-      html: `Budget should be ${state.revisedBudget}.`,
+      html: `${state.revisedBudget} budget works.`,
       meta: "8:02 PM",
       tag: "budget-updated",
     });
@@ -376,6 +377,25 @@ document.addEventListener("click", (event) => {
       role: "agent",
       html: `
         Got it. I updated the 3P form and re-submitted the request to the advertiser.
+        ${buildConfirmCard(state.revisedBudget, "Updated submission", state.leadId)}
+      `,
+      meta: "8:03 PM",
+      tag: "budget-updated",
+    });
+    scheduleAutoWon();
+  }
+
+  if (action === "need-cheaper") {
+    state.dmMessages.push({
+      role: "me",
+      html: "Need cheaper quote.",
+      meta: "8:02 PM",
+      tag: "budget-updated",
+    });
+    state.dmMessages.push({
+      role: "agent",
+      html: `
+        Understood. I lowered the target budget to ${state.revisedBudget} and updated the 3P submission for a lower quote range.
         ${buildConfirmCard(state.revisedBudget, "Updated submission", state.leadId)}
       `,
       meta: "8:03 PM",
