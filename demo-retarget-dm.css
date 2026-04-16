@@ -1001,52 +1001,62 @@ input {
 
 .rt-dm-suggestions {
   position: sticky;
-  bottom: 74px;
+  bottom: 66px;
   width: 100%;
-  margin-top: 22px;
+  margin-top: 26px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 7px;
-  padding-bottom: 4px;
+  align-items: flex-end;
+  gap: 8px;
+  padding: 0 18px 2px 0;
   pointer-events: none;
 }
 
 .rt-suggestion-chip {
   width: fit-content;
-  min-height: 24px;
-  padding: 0 10px;
+  max-width: 220px;
+  min-height: 27px;
+  padding: 0 12px;
   border-radius: 999px;
-  border: 1px solid rgba(0, 0, 0, 0.028);
-  background: rgba(243, 244, 247, 0.58);
-  color: rgba(16, 18, 23, 0.26);
-  font-size: 9px;
+  border: 1px solid rgba(0, 0, 0, 0.03);
+  background: rgba(243, 244, 247, 0.68);
+  color: rgba(16, 18, 23, 0.32);
+  font-size: 10px;
   font-weight: 600;
   letter-spacing: -0.01em;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  white-space: nowrap;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.92), 0 2px 8px rgba(15, 20, 30, 0.02);
   opacity: 0;
   pointer-events: auto;
-  transition: transform 140ms ease, opacity 140ms ease, background-color 140ms ease;
-  animation: rtSuggestionIn 260ms ease-out forwards;
+  transition: transform 140ms ease, opacity 140ms ease, background-color 140ms ease, color 140ms ease;
+  animation: rtSuggestionIn 300ms ease-out forwards;
+}
+
+.rt-suggestion-chip:first-child {
+  margin-right: 48px;
+  opacity: 0.72;
+  transform-origin: right bottom;
 }
 
 .rt-suggestion-chip:nth-child(2) {
-  animation-delay: 70ms;
+  margin-right: 6px;
+  animation-delay: 90ms;
 }
 
 .rt-suggestion-chip:active {
   transform: translateY(1px);
   opacity: 1;
-  background: rgba(243, 244, 247, 0.82);
+  background: rgba(243, 244, 247, 0.88);
+  color: rgba(16, 18, 23, 0.42);
 }
 
 @keyframes rtSuggestionIn {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(12px);
   }
   to {
-    opacity: 0.82;
+    opacity: 0.84;
     transform: translateY(0);
   }
 }
