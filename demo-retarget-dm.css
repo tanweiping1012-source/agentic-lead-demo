@@ -163,6 +163,50 @@ input {
   gap: 12px;
 }
 
+.rt-search-result {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: 14px;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 8px rgba(10, 18, 30, 0.04);
+}
+
+.rt-search-thumb {
+  width: 56px;
+  height: 72px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #e8ecf2, #d5dbe6);
+  display: grid;
+  place-items: center;
+  font-size: 18px;
+  color: rgba(0, 0, 0, 0.2);
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.rt-search-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.rt-search-info-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: rgba(16, 18, 23, 0.88);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rt-search-info-meta {
+  margin-top: 3px;
+  font-size: 11px;
+  color: rgba(16, 18, 23, 0.44);
+}
+
 .rt-lead-detail {
   background: linear-gradient(180deg, #f7f8fb 0%, #eef2f7 100%);
 }
@@ -517,6 +561,25 @@ input {
   font-size: 12px;
   line-height: 1.45;
   color: rgba(255, 255, 255, 0.86);
+}
+
+.rt-feed-username {
+  font-size: 15px;
+  font-weight: 800;
+  color: white;
+}
+
+.rt-feed-desc {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.86);
+}
+
+.rt-feed-music {
+  margin-top: 5px;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.68);
 }
 
 .rt-feed-rail {

@@ -51,6 +51,20 @@ function renderSearch() {
       </div>
 
       <div class="rt-search-content">
+        <div class="rt-search-result">
+          <div class="rt-search-thumb">▶</div>
+          <div class="rt-search-info">
+            <div class="rt-search-info-title">Budget Home Renovation Tips 2024</div>
+            <div class="rt-search-info-meta">HomeDesign Pro · 2.1M views</div>
+          </div>
+        </div>
+        <div class="rt-search-result">
+          <div class="rt-search-thumb">▶</div>
+          <div class="rt-search-info">
+            <div class="rt-search-info-title">Kitchen Remodel Under $10K</div>
+            <div class="rt-search-info-meta">RenoTips · 890K views</div>
+          </div>
+        </div>
         <button class="rt-card rt-lead rt-lead-clickable rt-lead-card" type="button" data-action="open-lead" data-from="search">
           <div class="rt-lead-topline">
             <div class="rt-lead-kicker">LEAD CARD</div>
@@ -113,6 +127,12 @@ function renderFeed() {
       </header>
 
       ${push}
+
+      <div class="rt-feed-copy rt-feed-top">
+        <div class="rt-feed-username">@RenoFlow</div>
+        <div class="rt-feed-desc">Modern apartment renovation — before &amp; after ✨ #HomeRenovation #InteriorDesign</div>
+        <div class="rt-feed-music">♪ original sound — RenoFlow</div>
+      </div>
 
       <div class="rt-feed-rail">
         <div class="rt-rail-item">

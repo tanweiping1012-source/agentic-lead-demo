@@ -236,7 +236,7 @@ function renderDM() {
         <div class="dm-brand">
           <div class="dm-brand-badge">UMA</div>
           <div>
-            <div class="dm-brand-title">Ultimate Medical Academy</div>
+            <div class="dm-brand-title">Ultimate Medical Academy <span class="dm-verified">●</span></div>
             <div class="dm-brand-sub">Business chat</div>
           </div>
         </div>
@@ -257,8 +257,9 @@ function renderDM() {
           <div class="dm-hero-note">You viewed an ad before opening this chat. <span>View ad</span></div>
         </div>
         ${messages}
-        ${suggestions}
       </div>
+
+      ${suggestions}
 
       <div class="dm-input">
         <div class="dm-input-icon">◉</div>

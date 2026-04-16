@@ -693,7 +693,7 @@ textarea {
 
 .dm-body {
   flex: 1;
-  padding: 10px 12px 128px;
+  padding: 10px 12px 160px;
   background: #fff;
   overflow-y: auto;
 }
@@ -860,22 +860,69 @@ textarea {
 }
 
 .dm-suggestions {
+  position: fixed;
+  left: 50%;
+  bottom: calc(60px + env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  width: min(420px, 100%);
   display: flex;
-  flex-wrap: wrap;
   gap: 8px;
-  margin-top: 12px;
+  padding: 8px 12px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  pointer-events: none;
+  z-index: 4;
+}
+
+.dm-suggestions::-webkit-scrollbar {
+  display: none;
 }
 
 .dm-suggestions button {
+  flex-shrink: 0;
   min-height: 34px;
   padding: 0 14px;
-  border-radius: 999px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 18px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
   background: #fff;
-  color: rgba(0, 0, 0, 0.82);
-  font-size: 12px;
-  font-weight: 700;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
+  color: rgba(0, 0, 0, 0.72);
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  pointer-events: auto;
+  opacity: 0;
+  animation: dmChipIn 220ms ease-out forwards;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: transform 100ms ease, background-color 100ms ease;
+}
+
+.dm-suggestions button:nth-child(1) {
+  animation-delay: 0ms;
+}
+
+.dm-suggestions button:nth-child(2) {
+  animation-delay: 60ms;
+}
+
+.dm-suggestions button:nth-child(3) {
+  animation-delay: 120ms;
+}
+
+.dm-suggestions button:active {
+  transform: scale(0.96);
+  background: #f5f6f8;
+}
+
+@keyframes dmChipIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .dm-input {
