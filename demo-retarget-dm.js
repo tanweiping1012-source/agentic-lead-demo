@@ -1,15 +1,18 @@
 const app = document.querySelector("#app");
 
 const state = {
-  screen: "feed", // feed | search | lead | dm
+  screen: "feed",
   hasRecentSearch: false,
-  leadEntry: "feed", // feed | search
+  leadEntry: "feed",
   leadId: "LEAD-RNV-2048",
   submissionId: "SUB-RNV-9A31",
   budget: "$30k",
   revisedBudget: "$45k",
   dmMessages: [],
   dmAutoWonScheduled: false,
+  dmInitialized: false,
+  pushShown: false,
+  pushDismissed: false,
 };
 
 function render() {
@@ -17,6 +20,14 @@ function render() {
   if (state.screen === "search") app.innerHTML = renderSearch();
   if (state.screen === "lead") app.innerHTML = renderLeadDetail();
   if (state.screen === "dm") app.innerHTML = renderDM();
+
+  if (state.screen === "feed" && !state.pushShown) {
+    state.pushShown = true;
+    window.setTimeout(() => {
+      const push = document.querySelector(".rt-push");
+      if (push) push.classList.add("rt-push-show");
+    }, 100);
+  }
 }
 
 function renderSearch() {
@@ -68,6 +79,19 @@ function renderSearch() {
 }
 
 function renderFeed() {
+  const push = !state.pushDismissed
+    ? `
+      <div class="rt-push" data-action="open-lead" data-from="feed">
+        <div class="rt-push-avatar">RF</div>
+        <div class="rt-push-body">
+          <div class="rt-push-app">TikTok</div>
+          <div class="rt-push-text">RenoFlow: Your renovation quote is ready</div>
+        </div>
+        <div class="rt-push-time">now</div>
+      </div>
+    `
+    : "";
+
   return `
     <section class="rt-shell rt-feed-screen">
       <div class="rt-feed-bg"></div>
@@ -88,9 +112,11 @@ function renderFeed() {
         </div>
       </header>
 
+      ${push}
+
       <div class="rt-feed-rail">
         <div class="rt-rail-item">
-          <button class="rt-rail-icon rt-rail-click" type="button" data-action="open-lead" data-from="feed">RF</button>
+          <button class="rt-rail-icon rt-rail-click rt-rail-retarget" type="button" data-action="open-lead" data-from="feed">RF</button>
           <span>Reno</span>
         </div>
         <div class="rt-rail-item">
@@ -182,8 +208,6 @@ function renderLeadDetail() {
 }
 
 function renderDM() {
-  ensureDMInitialized();
-
   const bubbles = state.dmMessages
     .map((m) => {
       const me = m.role === "me";
@@ -196,7 +220,7 @@ function renderDM() {
     })
     .join("");
 
-  const showConfirmChips = !state.dmMessages.some((m) => m.tag === "confirmed") && !state.dmMessages.some((m) => m.tag === "budget-updated");
+  const showConfirmChips = state.dmInitialized && !state.dmMessages.some((m) => m.tag === "confirmed") && !state.dmMessages.some((m) => m.tag === "budget-updated");
   const chips = showConfirmChips
     ? `
       <div class="rt-dm-suggestions">
@@ -256,11 +280,10 @@ function renderDM() {
   `;
 }
 
-function ensureDMInitialized() {
-  if (state.dmMessages.length > 0) return;
+function initDM() {
+  if (state.dmInitialized) return;
+  state.dmInitialized = true;
 
-  // Let the user see the "business chat" hero first, then the agent message comes in.
-  state.dmMessages = [];
   window.setTimeout(() => {
     if (state.screen !== "dm") return;
     state.dmMessages.push({
@@ -329,7 +352,20 @@ function scheduleAutoWon() {
 function scrollDMToBottom() {
   const body = document.querySelector(".rt-dm-body");
   if (!body) return;
-  body.scrollTop = body.scrollHeight;
+  window.setTimeout(() => {
+    body.scrollTop = body.scrollHeight;
+  }, 30);
+}
+
+function dismissPush() {
+  state.pushDismissed = true;
+  const push = document.querySelector(".rt-push");
+  if (push) {
+    push.style.transition = "opacity 200ms ease, transform 200ms ease";
+    push.style.opacity = "0";
+    push.style.transform = "translateY(-20px)";
+    window.setTimeout(() => { if (push.parentNode) push.remove(); }, 200);
+  }
 }
 
 document.addEventListener("click", (event) => {
@@ -338,71 +374,90 @@ document.addEventListener("click", (event) => {
   const action = actionEl.getAttribute("data-action");
 
   if (action === "noop") return;
+
   if (action === "open-search") {
     state.hasRecentSearch = true;
     state.screen = "search";
+    dismissPush();
   }
   if (action === "back-from-search") state.screen = "feed";
   if (action === "back-to-search") state.screen = "search";
+
   if (action === "open-lead") {
     const from = actionEl.getAttribute("data-from");
     state.leadEntry = from === "search" ? "search" : "feed";
     state.screen = "lead";
+    dismissPush();
   }
+
   if (action === "open-dm") {
     state.screen = "dm";
-    // DM is rendered; initialize and keep bottom pinned.
+    initDM();
     window.setTimeout(scrollDMToBottom, 0);
   }
   if (action === "back-feed") state.screen = "feed";
 
-  if (action === "looks-good") {
-    state.dmMessages.push({ role: "me", html: "Looks good to me.", meta: "8:02 PM", tag: "confirmed" });
-    state.dmMessages.push({
-      role: "agent",
-      html: "Perfect. We will proceed with this submission and connect you with a contractor.",
-      meta: "8:02 PM",
-      tag: "confirmed",
-    });
-    scheduleAutoWon();
-  }
+  if (action === "looks-good" || action === "adjust-budget" || action === "need-cheaper") {
+    const suggestionsEl = document.querySelector(".rt-dm-suggestions");
+    if (suggestionsEl) {
+      suggestionsEl.style.transition = "opacity 150ms ease";
+      suggestionsEl.style.opacity = "0";
+    }
 
-  if (action === "adjust-budget") {
-    state.dmMessages.push({
-      role: "me",
-      html: `${state.revisedBudget} works better.`,
-      meta: "8:02 PM",
-      tag: "budget-updated",
-    });
-    state.dmMessages.push({
-      role: "agent",
-      html: `
-        Got it. I updated the 3P form and re-submitted the request to the advertiser.
-        ${buildConfirmCard(state.revisedBudget, "Updated submission", state.leadId)}
-      `,
-      meta: "8:03 PM",
-      tag: "budget-updated",
-    });
-    scheduleAutoWon();
-  }
+    window.setTimeout(() => {
+      if (action === "looks-good") {
+        state.dmMessages.push({ role: "me", html: "Looks good to me.", meta: "8:02 PM", tag: "confirmed" });
+        state.dmMessages.push({
+          role: "agent",
+          html: "Perfect. We will proceed with this submission and connect you with a contractor.",
+          meta: "8:02 PM",
+          tag: "confirmed",
+        });
+        scheduleAutoWon();
+      }
 
-  if (action === "need-cheaper") {
-    state.dmMessages.push({
-      role: "me",
-      html: "Can you lower the quote?",
-      meta: "8:02 PM",
-      tag: "budget-updated",
-    });
-    state.dmMessages.push({
-      role: "agent",
-      html: `
-        Understood. I lowered the target budget to ${state.revisedBudget} and updated the 3P submission for a lower quote range.
-        ${buildConfirmCard(state.revisedBudget, "Updated submission", state.leadId)}
-      `,
-      meta: "8:03 PM",
-      tag: "budget-updated",
-    });
-    scheduleAutoWon();
+      if (action === "adjust-budget") {
+        state.dmMessages.push({
+          role: "me",
+          html: `${state.revisedBudget} works better.`,
+          meta: "8:02 PM",
+          tag: "budget-updated",
+        });
+        state.dmMessages.push({
+          role: "agent",
+          html: `
+            Got it. I updated the 3P form and re-submitted the request to the advertiser.
+            ${buildConfirmCard(state.revisedBudget, "Updated submission", state.leadId)}
+          `,
+          meta: "8:03 PM",
+          tag: "budget-updated",
+        });
+        scheduleAutoWon();
+      }
+
+      if (action === "need-cheaper") {
+        state.dmMessages.push({
+          role: "me",
+          html: "Can you lower the quote?",
+          meta: "8:02 PM",
+          tag: "budget-updated",
+        });
+        state.dmMessages.push({
+          role: "agent",
+          html: `
+            Understood. I lowered the target budget to ${state.revisedBudget} and updated the 3P submission for a lower quote range.
+            ${buildConfirmCard(state.revisedBudget, "Updated submission", state.leadId)}
+          `,
+          meta: "8:03 PM",
+          tag: "budget-updated",
+        });
+        scheduleAutoWon();
+      }
+
+      render();
+      scrollDMToBottom();
+    }, 160);
+    return;
   }
 
   render();
