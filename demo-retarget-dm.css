@@ -32,6 +32,37 @@ input {
   font: inherit;
 }
 
+.rt-lead-clickable {
+  text-align: left;
+  width: 100%;
+}
+
+.rt-lead-clickable:active {
+  transform: translateY(1px);
+}
+
+.rt-lead-clickable {
+  cursor: pointer;
+}
+
+.rt-feed-card {
+  text-align: left;
+  border: 0;
+  cursor: pointer;
+}
+
+.rt-feed-card:active {
+  transform: translateY(1px);
+}
+
+.rt-feed-cta {
+  pointer-events: none;
+}
+
+.rt-feed-cta button {
+  pointer-events: auto;
+}
+
 .retarget-phone {
   width: min(420px, 100%);
   min-height: 100vh;
@@ -130,6 +161,25 @@ input {
   display: flex;
   flex-direction: column;
   gap: 12px;
+}
+
+.rt-lead-detail {
+  background: linear-gradient(180deg, #f7f8fb 0%, #eef2f7 100%);
+}
+
+.rt-lead-topbar {
+  display: grid;
+  grid-template-columns: 40px 1fr 40px;
+  align-items: center;
+  padding: 0 14px 6px;
+}
+
+.rt-lead-detail-body {
+  padding: 8px 14px 18px;
+}
+
+.rt-lead-detail-card {
+  margin-top: 12px;
 }
 
 .rt-note {

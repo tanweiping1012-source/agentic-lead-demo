@@ -1,8 +1,9 @@
 const app = document.querySelector("#app");
 
 const state = {
-  screen: "feed", // feed | search | dm
+  screen: "feed", // feed | search | lead | dm
   hasRecentSearch: false,
+  leadEntry: "feed", // feed | search
   leadId: "LEAD-RNV-2048",
   submissionId: "SUB-RNV-9A31",
   budget: "$30k",
@@ -14,6 +15,7 @@ const state = {
 function render() {
   if (state.screen === "feed") app.innerHTML = renderFeed();
   if (state.screen === "search") app.innerHTML = renderSearch();
+  if (state.screen === "lead") app.innerHTML = renderLeadDetail();
   if (state.screen === "dm") app.innerHTML = renderDM();
 }
 
@@ -38,7 +40,7 @@ function renderSearch() {
       </div>
 
       <div class="rt-search-content">
-        <div class="rt-card rt-lead">
+        <button class="rt-card rt-lead rt-lead-clickable" type="button" data-action="open-lead" data-from="search">
           <div class="rt-lead-head">
             <div>
               <div class="rt-lead-kicker">Lead Card</div>
@@ -61,7 +63,7 @@ function renderSearch() {
               <b>Missing</b>
             </div>
           </div>
-        </div>
+        </button>
       </div>
     </section>
   `;
@@ -112,7 +114,7 @@ function renderFeed() {
         </div>
       </div>
 
-      <div class="rt-feed-card">
+      <button class="rt-feed-card" type="button" data-action="open-lead" data-from="feed">
         <div class="rt-feed-kicker">Sponsored</div>
         <h3>Get a renovation quote in chat</h3>
         <p>${state.hasRecentSearch ? "Based on your recent search, we prepared your request." : "We can prepare your request in seconds."}</p>
@@ -121,8 +123,10 @@ function renderFeed() {
           <span>Budget to confirm</span>
           <span>3P form auto-submit</span>
         </div>
-        <button class="rt-btn rt-btn-primary" type="button" data-action="open-dm">Message</button>
-      </div>
+        <div class="rt-feed-cta">
+          <button class="rt-btn rt-btn-primary" type="button" data-action="open-dm">Message</button>
+        </div>
+      </button>
 
       <nav class="rt-tt-tabbar" aria-hidden="true">
         <button class="rt-tab" type="button">⌂<small>Home</small></button>
@@ -131,6 +135,68 @@ function renderFeed() {
         <button class="rt-tab" type="button">✉<small>Inbox</small></button>
         <button class="rt-tab" type="button">◉<small>Profile</small></button>
       </nav>
+    </section>
+  `;
+}
+
+function renderLeadDetail() {
+  const backAction = state.leadEntry === "search" ? "back-to-search" : "back-feed";
+  const contextLabel = state.leadEntry === "search" ? "From Search" : "From Feed retargeting";
+
+  return `
+    <section class="rt-shell rt-lead-detail">
+      <div class="rt-statusbar rt-statusbar-light">
+        <span>9:41</span>
+        <span>5G 100%</span>
+      </div>
+
+      <div class="rt-lead-topbar">
+        <button class="rt-back" type="button" data-action="${backAction}">‹</button>
+        <div class="rt-search-title">Lead details</div>
+        <div class="rt-nav-spacer"></div>
+      </div>
+
+      <div class="rt-lead-detail-body">
+        <div class="rt-note">${contextLabel}</div>
+
+        <div class="rt-card rt-lead-detail-card">
+          <div class="rt-lead-head">
+            <div>
+              <div class="rt-lead-kicker">Lead</div>
+              <div class="rt-lead-title">Modern apartment renovation inquiry</div>
+            </div>
+            <div class="rt-lead-status">${state.hasRecentSearch ? "Prepared" : "Draft"}</div>
+          </div>
+
+          <div class="rt-lead-grid">
+            <div class="rt-field">
+              <span>Project</span>
+              <b>Living room + kitchen refresh</b>
+            </div>
+            <div class="rt-field">
+              <span>Location</span>
+              <b>Singapore</b>
+            </div>
+            <div class="rt-field">
+              <span>Budget</span>
+              <b>${state.hasRecentSearch ? state.budget : "Missing"}</b>
+            </div>
+            <div class="rt-field">
+              <span>Timeline</span>
+              <b>Start in 2 months</b>
+            </div>
+          </div>
+
+          <div class="rt-lead-tip">
+            We can confirm the missing fields in DM. Agent may submit the 3P quote form first to speed up matching, then confirm details with you here.
+          </div>
+
+          <div class="rt-lead-actions">
+            <button class="rt-btn rt-btn-secondary" type="button" data-action="${backAction}">Back</button>
+            <button class="rt-btn rt-btn-primary" type="button" data-action="open-dm">Message</button>
+          </div>
+        </div>
+      </div>
     </section>
   `;
 }
@@ -281,6 +347,12 @@ document.addEventListener("click", (event) => {
     state.screen = "search";
   }
   if (action === "back-from-search") state.screen = "feed";
+  if (action === "back-to-search") state.screen = "search";
+  if (action === "open-lead") {
+    const from = actionEl.getAttribute("data-from");
+    state.leadEntry = from === "search" ? "search" : "feed";
+    state.screen = "lead";
+  }
   if (action === "open-dm") {
     state.screen = "dm";
     // DM is rendered; initialize and keep bottom pinned.
