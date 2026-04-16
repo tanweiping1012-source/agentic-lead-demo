@@ -1000,68 +1000,74 @@ input {
 }
 
 .rt-dm-suggestions {
-  position: sticky;
-  bottom: 66px;
-  width: 100%;
-  margin-top: 26px;
+  position: fixed;
+  left: 50%;
+  bottom: calc(56px + env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  width: min(420px, 100%);
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: flex-start;
   gap: 6px;
-  padding: 0 18px 2px 0;
+  padding: 0 18px 6px 72px;
   pointer-events: none;
+  z-index: 4;
 }
 
 .rt-suggestion-chip {
   width: fit-content;
-  max-width: 190px;
-  min-height: 25px;
-  padding: 0 11px;
+  max-width: 235px;
+  min-height: 30px;
+  padding: 0 14px;
   border-radius: 999px;
   border: 0;
-  background: rgba(243, 244, 247, 0.54);
+  background: rgba(244, 245, 247, 0.92);
   color: rgba(16, 18, 23, 0.28);
-  font-size: 9px;
-  font-weight: 600;
+  font-size: 10px;
+  font-weight: 500;
   letter-spacing: -0.01em;
-  white-space: nowrap;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  text-align: left;
+  white-space: normal;
+  line-height: 1.28;
+  box-shadow: 0 1px 2px rgba(15, 20, 30, 0.02), inset 0 1px 0 rgba(255, 255, 255, 0.94);
   opacity: 0;
   pointer-events: auto;
   transition: transform 140ms ease, opacity 140ms ease, background-color 140ms ease, color 140ms ease;
-  animation: rtSuggestionIn 300ms ease-out forwards;
+  animation: rtSuggestionIn 240ms ease-out forwards;
 }
 
-.rt-suggestion-chip:first-child {
-  margin-right: 74px;
-  opacity: 0.72;
-  transform-origin: right bottom;
+.rt-suggestion-chip-1 {
+  margin-left: 86px;
+  max-width: 210px;
+  animation-delay: 0ms;
 }
 
-.rt-suggestion-chip:nth-child(2) {
-  margin-right: 34px;
-  animation-delay: 90ms;
+.rt-suggestion-chip-2 {
+  margin-left: 34px;
+  max-width: 185px;
+  animation-delay: 70ms;
 }
 
-.rt-suggestion-chip:nth-child(3) {
-  margin-right: 2px;
-  animation-delay: 150ms;
+.rt-suggestion-chip-3 {
+  margin-left: 0;
+  max-width: 258px;
+  animation-delay: 130ms;
 }
 
 .rt-suggestion-chip:active {
   transform: translateY(1px);
   opacity: 1;
-  background: rgba(243, 244, 247, 0.78);
-  color: rgba(16, 18, 23, 0.4);
+  background: rgba(244, 245, 247, 0.98);
+  color: rgba(16, 18, 23, 0.38);
 }
 
 @keyframes rtSuggestionIn {
   from {
     opacity: 0;
-    transform: translateY(12px);
+    transform: translateY(10px);
   }
   to {
-    opacity: 0.84;
+    opacity: 1;
     transform: translateY(0);
   }
 }

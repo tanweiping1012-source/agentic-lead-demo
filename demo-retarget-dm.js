@@ -200,9 +200,9 @@ function renderDM() {
   const chips = showConfirmChips
     ? `
       <div class="rt-dm-suggestions">
-        <button class="rt-suggestion-chip" type="button" data-action="looks-good">Looks good</button>
-        <button class="rt-suggestion-chip" type="button" data-action="adjust-budget">${state.revisedBudget} budget</button>
-        <button class="rt-suggestion-chip" type="button" data-action="need-cheaper">Need cheaper quote</button>
+        <button class="rt-suggestion-chip rt-suggestion-chip-1" type="button" data-action="looks-good">Looks good to me</button>
+        <button class="rt-suggestion-chip rt-suggestion-chip-2" type="button" data-action="adjust-budget">${state.revisedBudget} works better</button>
+        <button class="rt-suggestion-chip rt-suggestion-chip-3" type="button" data-action="need-cheaper">Can you lower the quote?</button>
       </div>
     `
     : "";
@@ -356,7 +356,7 @@ document.addEventListener("click", (event) => {
   if (action === "back-feed") state.screen = "feed";
 
   if (action === "looks-good") {
-    state.dmMessages.push({ role: "me", html: "Looks good.", meta: "8:02 PM", tag: "confirmed" });
+    state.dmMessages.push({ role: "me", html: "Looks good to me.", meta: "8:02 PM", tag: "confirmed" });
     state.dmMessages.push({
       role: "agent",
       html: "Perfect. We will proceed with this submission and connect you with a contractor.",
@@ -369,7 +369,7 @@ document.addEventListener("click", (event) => {
   if (action === "adjust-budget") {
     state.dmMessages.push({
       role: "me",
-      html: `${state.revisedBudget} budget works.`,
+      html: `${state.revisedBudget} works better.`,
       meta: "8:02 PM",
       tag: "budget-updated",
     });
@@ -388,7 +388,7 @@ document.addEventListener("click", (event) => {
   if (action === "need-cheaper") {
     state.dmMessages.push({
       role: "me",
-      html: "Need cheaper quote.",
+      html: "Can you lower the quote?",
       meta: "8:02 PM",
       tag: "budget-updated",
     });
