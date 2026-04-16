@@ -88,11 +88,6 @@ function renderFeed() {
         </div>
       </header>
 
-      <div class="rt-feed-copy">
-        <b>@RenoFlow</b>
-        <p>Still comparing renovation quotes? Message us to finish your request and get matched with contractors.</p>
-      </div>
-
       <div class="rt-feed-rail">
         <div class="rt-rail-item">
           <button class="rt-rail-icon rt-rail-click" type="button" data-action="open-lead" data-from="feed">RF</button>
@@ -111,10 +106,6 @@ function renderFeed() {
           <span>523</span>
         </div>
       </div>
-
-      <button class="rt-feed-mini" type="button" data-action="open-lead" data-from="feed">
-        Continue your quote in DM
-      </button>
 
       <nav class="rt-tt-tabbar" aria-hidden="true">
         <button class="rt-tab" type="button">⌂<small>Home</small></button>
