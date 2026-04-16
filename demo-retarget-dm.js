@@ -211,10 +211,10 @@ function renderDM() {
       <div class="rt-dm-top">
         <button class="rt-dm-back" type="button" data-action="back-feed" aria-label="Back">‹</button>
         <div class="rt-dm-brand">
-          <div class="rt-dm-avatar">CAR<br/>max</div>
+          <div class="rt-dm-avatar">RF</div>
           <div class="rt-dm-brand-text">
             <div class="rt-dm-brand-line1">
-              <b>Car Max</b>
+              <b>RenoFlow</b>
               <span class="rt-dm-verified" aria-hidden="true">●</span>
             </div>
             <div class="rt-dm-brand-line2">Business chat</div>
@@ -228,9 +228,9 @@ function renderDM() {
 
       <div class="rt-dm-body">
         <div class="rt-dm-hero">
-          <div class="rt-dm-hero-logo">CAR<br/>max</div>
-          <div class="rt-dm-hero-name">Car Max</div>
-          <div class="rt-dm-hero-meta">128 videos · 1.1M followers</div>
+          <div class="rt-dm-hero-logo">RF</div>
+          <div class="rt-dm-hero-name">RenoFlow</div>
+          <div class="rt-dm-hero-meta">56 videos · 240K followers</div>
           <div class="rt-dm-hero-meta">Typically replies in 10 minutes</div>
           <div class="rt-dm-divider">8:00 PM</div>
           <div class="rt-dm-note">
