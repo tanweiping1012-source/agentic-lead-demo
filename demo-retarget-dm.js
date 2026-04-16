@@ -40,14 +40,12 @@ function renderSearch() {
       </div>
 
       <div class="rt-search-content">
-        <button class="rt-card rt-lead rt-lead-clickable" type="button" data-action="open-lead" data-from="search">
-          <div class="rt-lead-head">
-            <div>
-              <div class="rt-lead-kicker">Lead Card</div>
-              <div class="rt-lead-title">Modern apartment renovation inquiry</div>
-            </div>
-            <div class="rt-lead-status">Not completed</div>
+        <button class="rt-card rt-lead rt-lead-clickable rt-lead-card" type="button" data-action="open-lead" data-from="search">
+          <div class="rt-lead-topline">
+            <div class="rt-lead-kicker">LEAD CARD</div>
+            <div class="rt-lead-pill">Not completed</div>
           </div>
+          <div class="rt-lead-title">Modern apartment renovation inquiry</div>
 
           <div class="rt-lead-grid">
             <div class="rt-field">
@@ -132,6 +130,9 @@ function renderFeed() {
 function renderLeadDetail() {
   const backAction = state.leadEntry === "search" ? "back-to-search" : "back-feed";
   const contextLabel = state.leadEntry === "search" ? "From Search" : "From Feed retargeting";
+  const isIncomplete = !state.hasRecentSearch;
+  const budget = isIncomplete ? "Missing" : state.budget;
+  const statusLabel = isIncomplete ? "Not completed" : "Prepared";
 
   return `
     <section class="rt-shell rt-lead-detail">
@@ -149,14 +150,12 @@ function renderLeadDetail() {
       <div class="rt-lead-detail-body">
         <div class="rt-note">${contextLabel}</div>
 
-        <div class="rt-card rt-lead-detail-card">
-          <div class="rt-lead-head">
-            <div>
-              <div class="rt-lead-kicker">Lead</div>
-              <div class="rt-lead-title">Modern apartment renovation inquiry</div>
-            </div>
-            <div class="rt-lead-status">${state.hasRecentSearch ? "Prepared" : "Draft"}</div>
+        <div class="rt-card rt-lead-detail-card rt-lead-card">
+          <div class="rt-lead-topline">
+            <div class="rt-lead-kicker">LEAD CARD</div>
+            <div class="rt-lead-pill">${statusLabel}</div>
           </div>
+          <div class="rt-lead-title">Modern apartment renovation inquiry</div>
 
           <div class="rt-lead-grid">
             <div class="rt-field">
@@ -169,7 +168,7 @@ function renderLeadDetail() {
             </div>
             <div class="rt-field">
               <span>Budget</span>
-              <b>${state.hasRecentSearch ? state.budget : "Missing"}</b>
+              <b>${budget}</b>
             </div>
             <div class="rt-field">
               <span>Timeline</span>
